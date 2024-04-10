@@ -21,6 +21,42 @@ const transformNodeResourceData = (data: any) => {
   return transformedData;
 };
 
+const newResourceData = transformNodeResourceData(nodeResourceData);
+
+const transformNodeRoleData = (roles: any[], resources: any[]) => {
+  const transformedData = roles.reduce((acc: any, role: any, index: number) => {
+    const filteredResources = resources.filter((resource) => {
+      return (
+        resource.metadata.permissions &&
+        resource.metadata.permissions.some((permission: any) => {
+          return (
+            role.permissions &&
+            role.permissions.some((rolePermission: any) => rolePermission.id === permission.permissionId)
+          );
+        })
+      );
+    });
+
+    acc[role.id] = {
+      id: role.id,
+      metadata: { ...role },
+      sourcePosition: 'right',
+      targetPosition: 'left',
+      data: {
+        label: <strong>{role.name}</strong>,
+      },
+      resources: filteredResources,
+      position: { x: 400, y: index * 100 },
+    };
+
+    return acc;
+  }, {});
+
+  return transformedData;
+};
+
+const newRoleData = transformNodeRoleData(nodeRoleData, newResourceData);
+
 const transformNodeUserData = (data: any) => {
   const transformedData = data.map((user: any, index: number) => ({
     id: user.id,
@@ -34,29 +70,9 @@ const transformNodeUserData = (data: any) => {
   return transformedData;
 };
 
-const transformNodeRoleData = (data: any) => {
-  const transformedData = data.map((role: any, index: number) => ({
-    id: role.id,
-    metadata: { ...role },
-    sourcePosition: 'right',
-    targetPosition: 'left',
-    data: {
-      label: <strong>{role.name}</strong>,
-    },
-    position: { x: 400, y: index * 100 },
-  }));
-
-  return transformedData;
-};
-
 const newUserData = transformNodeUserData(nodeUserData);
-
-const newRoleData = transformNodeRoleData(nodeRoleData);
-
-const newResourceData = transformNodeResourceData(nodeResourceData);
 
 console.log(newUserData, 'node-user');
 console.log(newRoleData, 'node-role');
-console.log(newResourceData, 'node-reso');
 
-export const nodeData = [...newUserData, ...newRoleData, ...newResourceData];
+export const nodeData = [...newUserData];
