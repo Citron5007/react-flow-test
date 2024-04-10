@@ -2,6 +2,7 @@ import type { NodeTypes } from 'reactflow';
 import { PositionLoggerNode } from './positionLoggerNode';
 import { CustomNode } from './customNode';
 import AWS from '../../assets/icons/aws';
+import { GroupNode } from '../groupedNode';
 export const initialNodes: any = [
   {
     id: '1',
@@ -19,6 +20,7 @@ export const initialNodes: any = [
   },
   {
     id: '2',
+    type: 'custom-node',
     position: { x: 350, y: 50 },
     data: {
       label: (
@@ -66,4 +68,5 @@ export const initialNodes: any = [
 export const nodeTypes: NodeTypes = {
   'position-logger': PositionLoggerNode,
   'custom-node': CustomNode,
+  'group-node': GroupNode,
 };

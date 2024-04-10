@@ -21,16 +21,16 @@ const CustomEdge: React.FC<EdgeProps> = ({
 
   return (
     <>
-      <BaseEdge id={id} path={edgePath} style={{ stroke: '#ABBFF5' }} />
+      <BaseEdge id={id} path={edgePath} style={{ stroke: '#ABBFF5', strokeWidth: 2 }} />
       <EdgeLabelRenderer>
         <div
           style={{
             position: 'absolute',
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             background: '#D1DEFF',
-            padding: '0px 8px',
+            padding: '0px 12px',
             borderRadius: 50,
-            fontSize: 8,
+            fontSize: 12,
             lineHeight: '20px',
             letterSpacing: '-0.012em',
             fontWeight: 700,
